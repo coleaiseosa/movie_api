@@ -172,3 +172,9 @@ Timestamp: Sat Sep 24 2022 11:46:46 GMT+0100 (West Africa Standard Time)
 URL: /favicon.ico
 Timestamp: Sat Sep 24 2022 11:46:46 GMT+0100 (West Africa Standard Time)
 
+::1 - - [29/Sep/2022:13:36:58 +0000] "GET /documentation.html HTTP/1.1" 304 -
+::1 - - [29/Sep/2022:13:37:00 +0000] "GET /documentation.html HTTP/1.1" 304 -
+::1 - - [29/Sep/2022:13:37:02 +0000] "GET /documentation.html HTTP/1.1" 304 -
+::1 - - [29/Sep/2022:13:37:26 +0000] "GET / HTTP/1.1" 304 -
+::1 - - [29/Sep/2022:13:37:32 +0000] "GET / HTTP/1.1" 304 -
+::1 - - [29/Sep/2022:13:37:41 +0000] "GET / HTTP/1.1" 304 -
