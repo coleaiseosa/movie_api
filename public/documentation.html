@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
     <Header>
@@ -16,7 +17,7 @@
         </p>
 
         <h2>Features</h2>
-        <ul>
+        <ol>
             <li>Return a list of ALL movies to the user</li>
             <li>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</li>
             <li>Return data about a genre (description) by name/title</li>
@@ -26,12 +27,12 @@
             <li>Allow users to add a movie to their list of favorites</li>
             <li>Allow users to remove a movie from their list of favorites</li>
             <li>Allow existing users to deregister.</li>
-        </ul>
+        </ol>
     </div>
 
     <h2>API Endpoints</h2>
 
-    <table>
+    <table class="table">
      <thead>
         <tr>
             <th>Buisness Logic</th>
@@ -64,20 +65,38 @@
 
         <tr>
             <td>Get Genre by Name</td>
-            <td>/movies/genre/:genreName</td>
+            <td>/movies/genre/:Name</td>
             <td>GET</td>
-            <td>:genreName</td>
+            <td>:Name</td>
             <td>-</td>
             <td>A JSON object holding data about the genre of a movie</td>
         </tr>
 
         <tr>
             <td>Get director data by name</td>
-            <td>/movies/director/:directorName</td>
+            <td>/movies/director/:Name</td>
             <td>GET</td>
-            <td>:directorName</td>
+            <td>:Name</td>
             <td>-</td>
             <td>A JSON object holding data about the data of a director</td>
+        </tr>
+
+        <tr>
+            <td>Get all Users</td>
+            <td>/users</td>
+            <td>GET</td>
+            <td>-</td>
+            <td>-</td>
+            <td> A JSON object holding data of all users</td>
+        </tr>
+
+        <tr>
+            <td>Get a User by Username</td>
+            <td>/users/:Username</td>
+            <td>GET</td>
+            <td>-</td>
+            <td>-</td>
+            <td> A JSON object holding data of a specific user</td>
         </tr>
 
         <tr>
@@ -85,15 +104,15 @@
             <td>/users</td>
             <td>POST</td>
             <td>-</td>
-            <td>A JSON object holding data about the users to add, structured like this { "name" : "Vincent", "favorite movie" : [] } </td>
-            <td>A JSON object holding data about the user that was added, structured like this { "name" : "Vincent", "favorite movie" : [] } including an ID </td>
+            <td>A JSON object holding data about the users to add, structured like this { "name" : "Vincent", "Password": "1234", "Email": ""vincentokafor@gmail.com", "Birthday": "02-05-1996" } </td>
+            <td>A JSON object holding data about the user that was added, structured like this { "name" : "Vincent", "Password": "1234", "Email": "vincentokafor@gmail.com", "Birthday": "02-05-1996" } including an ID </td>
         </tr>
 
         <tr>
             <td>Allow new users update their user info</td>
-            <td>/users/:id</td>
+            <td>/users/:Username</td>
             <td>PUT</td>
-            <td>:id</td>
+            <td>:Username</td>
             <td>-</td>
             <td>A JSON object holding data about the updated information</td>
         </tr>
@@ -101,27 +120,27 @@
         
         <tr>
             <td>Adds movie to favorite list</td>
-            <td>/users/:id/:movieTitle</td>
+            <td>/users/:Username/movies/:MovieID</td>
             <td>POST</td>
-            <td>:movieTitle</td>
+            <td>:Username, :MovieID</td>
             <td>-</td>
-            <td>A text message indicating whether the Movie was added</td>
+            <td>A JSON Object holding data about the User and the movie that was added</td>
         </tr>
 
         <tr>
             <td>Delete movie from favorite list</td>
-            <td>/users/:id/:movieTitle</td>
+            <td>/users/:Username/movies/:MovieID</td>
             <td>DELETE</td>
-            <td>:movieTitle</td>
+            <td>:Username, :MovieID</td>
             <td>-</td>
-            <td>A text message indicating whether the Movie was removed</td>
+            <td>A JSON Object holding data about the User and the movie that was removed</td>
         </tr>
 
         <tr>
             <td>Allow existing users to deregister</td>
-            <td>/users/:id</td>
+            <td>/users/:Username</td>
             <td>DELETE</td>
-            <td>:movieTitle</td>
+            <td>:Username</td>
             <td>-</td>
             <td>A text message indicating whether the User has deregistered</td>
         </tr>
