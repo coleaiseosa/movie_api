@@ -8,6 +8,7 @@ path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -16,6 +17,9 @@ const Directors = Models.Director;
 
 // This allows mongoose connect to the database so it can perform CRUD operations . the 'test' is the name of the database created
 mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
+const cors = require('cors');
+app.use(cors());//This specifies that the app uses cors and by default it will set the application to allow requests from all origins
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); //bodyParser middle ware function
 let auth = require('./auth')(app); // to import auth.js file... the (app) argument is to ensure Express is available in the auth.js file as well
@@ -107,7 +111,23 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 })
 
 // // Allow new users register (create)
-app.post('/users', (req, res) => {
+app.post('/users', 
+[ 
+  // minimum value of 5 characters
+  check ('Username', 'Username is required').isLength({min: 5}),
+  check ('Username', 'Username contains non alphanumeric character - not allowed.').isAlphanumeric(),
+  // is not empty
+  check('Password', 'Password is required').not().isEmpty(),
+  check ('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
+    // check the validation object for errors
+  let errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array()});
+  } 
+
+  let hashedPassword = Users.hashedPassword(req.body.Password); // this hash the password before storing it in the mongoDB database
   Users.findOne({ Username: req.body.Username })
   .then((user) => {
     if (user) {
@@ -116,7 +136,7 @@ app.post('/users', (req, res) => {
       Users
       .create({
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       })
@@ -134,7 +154,13 @@ app.post('/users', (req, res) => {
 });
 
 // Allow users update their user info (Update)
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false })
+[ 
+  check ('Username', 'Username is required').isLength({min: 5}),
+  check ('Username', 'Username contains non alphanumeric character - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check ('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username},
     { $set:
       {
@@ -212,7 +238,8 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
     console.error(err.stack);
     res.status(500).send('Something broke!')
   });
-
-  app.listen(8080, () => {
-    console.log('Your app is listening on port 8080');
+  
+  const port = process.env.PORT || 8080;
+  app.listen(port, '0.0.0.0',  () => {
+    console.log('Listening on Port ' + port);
   });
