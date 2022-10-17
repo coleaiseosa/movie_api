@@ -359,3 +359,6 @@ Timestamp: Sat Sep 24 2022 11:46:46 GMT+0100 (West Africa Standard Time)
 ::1 - - [13/Oct/2022:21:15:24 +0000] "DELETE /users/Marcella%20king HTTP/1.1" 400 27
 ::1 - - [13/Oct/2022:21:16:10 +0000] "DELETE /users/Nathalie%20Cole HTTP/1.1" 400 27
 ::1 - - [13/Oct/2022:21:16:38 +0000] "GET /movies/genres/Comedy HTTP/1.1" 200 242
+::1 - - [17/Oct/2022:14:37:53 +0000] "POST /users HTTP/1.1" 201 222
+::1 - - [17/Oct/2022:14:57:35 +0000] "POST /users HTTP/1.1" 201 223
+::1 - - [17/Oct/2022:15:04:36 +0000] "GET / HTTP/1.1" 200 18

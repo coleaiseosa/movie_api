@@ -17,7 +17,7 @@ const Directors = Models.Director;
 
 // This allows mongoose connect to the database so it can perform CRUD operations . the 'test' is the name of the database created
 // for local database
-// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
+//mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
 
 //for online database process.env.Variable name ro secure connection URI
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
@@ -38,7 +38,6 @@ require('./passport');
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan('common', {stream: accessLogStream}));
 app.use(express.static('public'));
-
 //default text response
 app.get('/', (req, res) => {
   res.send('Welcome to MyFlix!');
@@ -253,7 +252,11 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
     res.status(500).send('Something broke!')
   });
   
-  const port = process.env.PORT || 8080;
-  app.listen(port, '0.0.0.0',  () => {
-    console.log('Listening on Port ' + port);
+   const port = process.env.PORT || 8080;
+   app.listen(port, '0.0.0.0',  () => {
+     console.log('Listening on Port ' + port);
   });
+
+  // app.listen(8080, () => {
+  //   console.log('ypur app is listening on port 8080.');
+  // })
