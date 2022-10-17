@@ -160,7 +160,7 @@ app.post('/users',
 });
 
 // Allow users update their user info (Update)
-app.put('/users/:Username', passport.authenticate('jwt', { session: false })
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
 [ 
   check ('Username', 'Username is required').isLength({min: 5}),
   check ('Username', 'Username contains non alphanumeric character - not allowed.').isAlphanumeric(),
