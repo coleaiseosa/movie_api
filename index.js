@@ -21,11 +21,13 @@ const Directors = Models.Director;
 
 //for online database process.env.Variable name ro secure connection URI
 mongoose.connect('process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true});
-const cors = require('cors');
-app.use(cors());//This specifies that the app uses cors and by default it will set the application to allow requests from all origins
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); //bodyParser middle ware function
+
+const cors = require('cors');
+app.use(cors());//This specifies that the app uses cors and by default it will set the application to allow requests from all origins
+
 let auth = require('./auth')(app); // to import auth.js file... the (app) argument is to ensure Express is available in the auth.js file as well
 
 //to require passport module and import passport.js file
@@ -131,7 +133,7 @@ app.post('/users',
     return res.status(422).json({ errors: errors.array()});
   } 
 
-  let hashedPassword = Users.hashedPassword(req.body.Password); // this hash the password before storing it in the mongoDB database
+  let hashedPassword = Users.hashPassword(req.body.Password); // this hash the password before storing it in the mongoDB database
   Users.findOne({ Username: req.body.Username })
   .then((user) => {
     if (user) {
@@ -165,11 +167,19 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false })
   check('Password', 'Password is required').not().isEmpty(),
   check ('Email', 'Email does not appear to be valid').isEmail()
 ], (req, res) => {
+
+  let errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array()});
+  } 
+
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({ Username: req.params.Username},
     { $set:
       {
         Username: req.body.Username,
-        Passworf: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       }
