@@ -20,7 +20,7 @@ const Directors = Models.Director;
 // mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
 
 //for online database process.env.Variable name ro secure connection URI
-mongoose.connect('process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); //bodyParser middle ware function
@@ -176,13 +176,13 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
 
   let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({ Username: req.params.Username},
-    { $set:
-      {
+    { 
+      $set: {
         Username: req.body.Username,
         Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
-      }
+      },
     },
     {new: true }, //This line makes sure that the updated document is returned
     (err, updatedUser) => {
