@@ -16,7 +16,11 @@ const Genres = Models.Genre;
 const Directors = Models.Director;
 
 // This allows mongoose connect to the database so it can perform CRUD operations . the 'test' is the name of the database created
-mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
+// for local database
+// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
+
+//for online database process.env.Variable name ro secure connection URI
+mongoose.connect('process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true});
 const cors = require('cors');
 app.use(cors());//This specifies that the app uses cors and by default it will set the application to allow requests from all origins
 
