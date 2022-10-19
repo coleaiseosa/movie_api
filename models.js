@@ -32,7 +32,7 @@ userSchema.statics.hashPassword = (password) => {
 
 // this is what compares the submitted hashed passwords with the hashed passwords stored in the database.
 userSchema.methods.validatePassword = function(password) { // don't use arrow function when defining instance methods
-  return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.Password);
 };
 
 let Movie = mongoose.model('Movie', movieSchema);
