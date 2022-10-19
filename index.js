@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //bodyParser middle ware fun
 const cors = require('cors');
 app.use(cors());//This specifies that the app uses cors and by default it will set the application to allow requests from all origins
 
-let auth = require('./auth')(app); // to import auth.js file... the (app) argument is to ensure Express is available in the auth.js file as well
+require('./auth')(app); // to import auth.js file... the (app) argument is to ensure Express is available in the auth.js file as well
 
 //to require passport module and import passport.js file
 const passport = require('passport');
